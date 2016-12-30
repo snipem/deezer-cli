@@ -17,5 +17,22 @@ deezer title
 deezer goto url
 ```
 
+### Example
+
+```
+$ deezer state
+▶
+$ deezer title
+Motörhead - Shine
+$ deezer pause
+$ deezer state
+◼
+$ deezer next
+$ deezer title
+The Mars Volta - Televators
+$ deezer play
+$ deezer state
+▶
+```
 ## Setup
 You will have to explicitly grant the right of accessing web contents with JavaScript to AppleScript. This can be done by activating `Allow JavaScript from Apple Events` option in Safari.
