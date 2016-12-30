@@ -1,0 +1,79 @@
+#!/bin/sh
+
+function track() {
+    #function_body
+    osascript -e '
+    tell application "Safari"
+        set playScript to "document.title"
+        do JavaScript playScript in second tab of first window
+    end tell
+'
+}
+
+function goto() {
+    url="$1"
+    osascript -e "
+    tell application \"Safari\"
+        set playScript to \"window.location.href = '$url'\"
+        do JavaScript playScript in second tab of first window
+    end tell
+    "
+
+    deezer play
+}
+
+function next() {
+    osascript -e '
+    tell application "Safari"
+        set playScript to "document.getElementsByClassName(\"control\")[2].click(); "
+        do JavaScript playScript in second tab of first window
+    end tell
+    '
+}
+
+function playpause() {
+    osascript -e '
+    tell application "Safari"
+        set playScript to "document.getElementsByClassName(\"control\")[1].click();"
+        do JavaScript playScript in second tab of first window
+    end tell
+    '
+}
+
+function status(){
+    state
+}
+
+
+function state() {
+    #function_body
+    osascript -e '
+    tell application "Safari"
+        set playScript to "document.getElementsByClassName(\"control\")[1].title;"
+        do JavaScript playScript in second tab of first window
+    end tell
+    ' | sed 's/Play/◼/g' | sed 's/Pause/▶/g'
+}
+
+function play() {
+    playpause
+}
+
+function pause() {
+    playpause
+}
+
+
+function title() {
+    track | awk -F" - " '{print $2 " - " $1}'
+}
+
+
+function start() {
+    osascript -e '
+    tell front window of application "Safari"
+        set current tab to tab 2
+    end tell'
+}
+
+$1 $2 | sed 's/missing value//g'
