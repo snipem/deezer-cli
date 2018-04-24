@@ -86,7 +86,6 @@ function start() {
 }
 
 state=$(state)
-echo "'$state'"
 if [[ "$state" == "" ]];then
   activate
   sleep 5s
