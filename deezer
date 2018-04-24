@@ -1,14 +1,21 @@
 #!/bin/bash
-# run: $HOME/build/deezer-cli/deezer status
+# run: $HOME/work/deezer-cli/deezer status
+
+#### Set this occording to your pinned tab settings
+tab_number=2
+####
+
+function run_javascript() {
+    osascript -e "
+    tell application \"Safari\"
+        set playScript to \""$1\""
+        do JavaScript playScript in tab $tab_number of first window
+    end tell
+"
+}
 
 function track() {
-    #function_body
-    osascript -e '
-    tell application "Safari"
-        set playScript to "document.title"
-        do JavaScript playScript in second tab of first window
-    end tell
-'
+    run_javascript "document.title"
 }
 
 function goto() {
@@ -24,44 +31,28 @@ function goto() {
 }
 
 function activate() {
-    osascript -e '
-        tell front window of application "Safari"
-            set current tab to tab 2
+    osascript -e "
+        tell front window of application \"Safari\"
+            set current tab to tab $tab_number
         end tell
-    '
+    "
 }
 
 function next() {
-    osascript -e '
-    tell application "Safari"
-        set playScript to "document.getElementsByClassName(\"control\")[2].click(); "
-        do JavaScript playScript in second tab of first window
-    end tell
-    '
+    run_javascript "document.getElementsByClassName('control')[0].click();"
 }
 
 function playpause() {
-    osascript -e '
-    tell application "Safari"
-        set playScript to "document.getElementsByClassName(\"control\")[1].click();"
-        do JavaScript playScript in second tab of first window
-    end tell
-    '
+    run_javascript "document.getElementsByClassName('control')[1].click();"
 }
 
-function status(){
-    state
+function next() {
+    run_javascript "document.getElementsByClassName('control')[2].click();"
 }
 
-
-function state() {
-    #function_body
-    osascript -e '
-    tell application "Safari"
-        set playScript to "document.getElementsByClassName(\"control\")[1].title;"
-        do JavaScript playScript in second tab of first window
-    end tell
-    ' | sed 's/Play/◼/g' | sed 's/Pause/▶/g'
+function status() {
+    run_javascript "document.getElementsByClassName('control')[1].title;" |
+        sed 's/Play/◼/g' | sed 's/Pause/▶/g'
 }
 
 function play() {
@@ -73,8 +64,8 @@ function pause() {
 }
 
 
-function title() {
-    track | awk -F" - " '{print $2 " - " $1}'
+function track() {
+    title | awk -F" - " '{print $2 " - " $1}'
 }
 
 
@@ -85,10 +76,52 @@ function start() {
     end tell'
 }
 
-state=$(state)
-if [[ "$state" == "" ]];then
+function usage() {
+    echo """usage: $0 [--help] <command>
+
+title       get title of Deezer window
+goto        change url of Deezer window
+activate    activate window if Deezer is not loaded yet. Will be run at every start.
+track       get title of track
+play        play track
+pause       pause track
+status      show status
+next        play next track
+prev        play previous track
+usage       this message
+"""
+}
+
+status=$(status)
+if [[ "$status" == "" ]];then
   activate
   sleep 5s
 fi
 
-"$1" "$2" | sed 's/missing value//g'
+while [ "$1" != "" ]; do
+    case $1 in
+        track)                  $1
+                                ;;
+        goto)                   $1
+                                ;;
+        activate)               $1
+                                ;;
+        title)                  $1
+                                ;;
+        pause)                  $1
+                                ;;
+        play)                   $1
+                                ;;
+        next)                   $1
+                                ;;
+        status)                 $1
+                                ;;
+        -h | --help )           usage
+                                exit
+                                ;;
+        * )                     usage
+                                exit 1
+    esac
+    shift
+done
+

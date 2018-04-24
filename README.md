@@ -4,34 +4,40 @@
 
 deezer-cli is a command line interface to Deezer. It consumes the ability of AppleScript on OSX to send JavaScript commands to any Safari instance.
 
-In the current setup Deezer is set as the second tab in Safari. Therefore, any command will target the second tab of the first Safari instance AppleScript will get hold on.
+In the current setup Deezer is set as the second tab in Safari. Therefore, any command will target the second tab of the first Safari instance AppleScript will get hold on. The number of the tab can be changed in the deezer shellscript itself.
 
 ### Available commands
 
 ```
-deezer play
-deezer pause
-deezer next
-deezer state
-deezer title
-deezer goto url
+usage: deezer [--help] <command>
+
+title       get title of Deezer window
+goto        change url of Deezer window
+activate    activate window if Deezer is not loaded yet. Will be run at every start.
+track       get title of track
+play        play track
+pause       pause track
+status      show status
+next        play next track
+prev        play previous track
+usage       this message
 ```
 
 ### Example
 
 ```
-$ deezer state
+$ deezer status
 ▶
-$ deezer title
+$ deezer track
 Motörhead - Shine
 $ deezer pause
-$ deezer state
+$ deezer status
 ◼
 $ deezer next
-$ deezer title
+$ deezer track
 The Mars Volta - Televators
 $ deezer play
-$ deezer state
+$ deezer status
 ▶
 ```
 ## Setup
