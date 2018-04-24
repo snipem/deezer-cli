@@ -26,8 +26,6 @@ function goto() {
         do JavaScript playScript in second tab of first window
     end tell
     "
-
-    deezer play
 }
 
 function activate() {
@@ -98,30 +96,27 @@ if [[ "$status" == "" ]];then
   sleep 5s
 fi
 
-while [ "$1" != "" ]; do
-    case $1 in
-        track)                  $1
-                                ;;
-        goto)                   $1
-                                ;;
-        activate)               $1
-                                ;;
-        title)                  $1
-                                ;;
-        pause)                  $1
-                                ;;
-        play)                   $1
-                                ;;
-        next)                   $1
-                                ;;
-        status)                 $1
-                                ;;
-        -h | --help )           usage
-                                exit
-                                ;;
-        * )                     usage
-                                exit 1
-    esac
-    shift
-done
+case $1 in
+    track)                  $1
+                            ;;
+    goto)                   $1 $2
+                            ;;
+    activate)               $1
+                            ;;
+    title)                  $1
+                            ;;
+    pause)                  $1
+                            ;;
+    play)                   $1
+                            ;;
+    next)                   $1
+                            ;;
+    status)                 $1
+                            ;;
+    -h | --help )           usage
+                            exit
+                            ;;
+    * )                     usage
+                            exit 1
+esac
 

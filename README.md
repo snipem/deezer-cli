@@ -39,6 +39,7 @@ The Mars Volta - Televators
 $ deezer play
 $ deezer status
 ▶
+$ deezer goto https://www.deezer.com/en/album/1206014
 ```
 ## Setup
 You will have to explicitly grant the right of accessing web contents with JavaScript to AppleScript. This can be done by activating `Allow JavaScript from Apple Events` option in Safari.
