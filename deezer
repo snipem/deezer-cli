@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+# run: $HOME/build/deezer-cli/deezer status
 
 function track() {
     #function_body
@@ -20,6 +21,14 @@ function goto() {
     "
 
     deezer play
+}
+
+function activate() {
+    osascript -e '
+        tell front window of application "Safari"
+            set current tab to tab 2
+        end tell
+    '
 }
 
 function next() {
@@ -76,4 +85,11 @@ function start() {
     end tell'
 }
 
-$1 $2 | sed 's/missing value//g'
+state=$(state)
+echo "'$state'"
+if [[ "$state" == "" ]];then
+  activate
+  sleep 5s
+fi
+
+"$1" "$2" | sed 's/missing value//g'
