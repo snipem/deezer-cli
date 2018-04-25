@@ -66,14 +66,6 @@ function track() {
     title | awk -F" - " '{print $2 " - " $1}'
 }
 
-
-function start() {
-    osascript -e '
-    tell front window of application "Safari"
-        set current tab to tab 2
-    end tell'
-}
-
 function usage() {
     echo """usage: $0 [--help] <command>
 
