@@ -5,6 +5,8 @@
 tab_number=2
 ####
 
+path_to_queue_header='$("#panel-queuelist > div > h3").text()'
+
 function run_javascript() {
     osascript -e "
     tell application \"Safari\"
@@ -12,6 +14,11 @@ function run_javascript() {
         do JavaScript playScript in tab $tab_number of first window
     end tell
 "
+}
+
+function queue() {
+    (>&2 echo "Not yet working")
+    run_javascript $path_to_queue_header
 }
 
 function title() {
@@ -23,7 +30,7 @@ function goto() {
     osascript -e "
     tell application \"Safari\"
         set playScript to \"window.location.href = '$url'\"
-        do JavaScript playScript in second tab of first window
+        do JavaScript playScript in tab $tab_number of first window
     end tell
     "
 }
@@ -69,21 +76,33 @@ function track() {
 function usage() {
     echo """usage: $0 [--help] <command>
 
+Control Playback:
+
+play        play track
+pause       pause track
+next        play next track
+prev        play previous track
+
+Information:
+
+track       get title of track
+status      show playback status
+
+Control Deezer Window:
+
 title       get title of Deezer window
 goto        change url of Deezer window
 activate    activate window if Deezer is not loaded yet. Will be run at every start.
-track       get title of track
-play        play track
-pause       pause track
-status      show status
-next        play next track
-prev        play previous track
+
+Help:
+
 usage       this message
 """
 }
 
 status=$(status)
 if [[ "$status" == "" ]];then
+  (>&2 echo "Activating $tab_number because window was inactive")
   activate
   sleep 5s
 fi
@@ -100,6 +119,8 @@ case $1 in
     pause)                  $1
                             ;;
     play)                   $1
+                            ;;
+    queue)                  $1
                             ;;
     next)                   $1
                             ;;

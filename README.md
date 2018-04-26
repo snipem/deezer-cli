@@ -9,17 +9,28 @@ In the current setup Deezer is set as the second tab in Safari. Therefore, any c
 ### Available commands
 
 ```
-usage: deezer [--help] <command>
+usage: /Users/matthiaskuech/build/deezer-cli//deezer [--help] <command>
+
+Control Playback:
+
+play        play track
+pause       pause track
+next        play next track
+prev        play previous track
+
+Information:
+
+track       get title of track
+status      show playback status
+
+Control Deezer Window:
 
 title       get title of Deezer window
 goto        change url of Deezer window
 activate    activate window if Deezer is not loaded yet. Will be run at every start.
-track       get title of track
-play        play track
-pause       pause track
-status      show status
-next        play next track
-prev        play previous track
+
+Help:
+
 usage       this message
 ```
 
